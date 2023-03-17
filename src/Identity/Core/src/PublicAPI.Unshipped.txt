@@ -4,4 +4,5 @@ Microsoft.AspNetCore.Identity.SecurityStampValidator<TUser>.TimeProvider.get -> 
 Microsoft.AspNetCore.Identity.SecurityStampValidatorOptions.TimeProvider.get -> System.TimeProvider?
 Microsoft.AspNetCore.Identity.SecurityStampValidatorOptions.TimeProvider.set -> void
 Microsoft.AspNetCore.Identity.TwoFactorSecurityStampValidator<TUser>.TwoFactorSecurityStampValidator(Microsoft.Extensions.Options.IOptions<Microsoft.AspNetCore.Identity.SecurityStampValidatorOptions!>! options, Microsoft.AspNetCore.Identity.SignInManager<TUser!>! signInManager, Microsoft.Extensions.Logging.ILoggerFactory! logger) -> void
+static readonly Microsoft.AspNetCore.Identity.IdentityConstants.BearerScheme -> string!
 virtual Microsoft.AspNetCore.Identity.SignInManager<TUser>.IsTwoFactorEnabledAsync(TUser! user) -> System.Threading.Tasks.Task<bool>!
