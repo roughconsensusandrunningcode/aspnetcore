@@ -21,6 +21,11 @@ public class IdentityConstants
     public static readonly string BearerScheme = IdentityPrefix + ".Bearer";
 
     /// <summary>
+    /// The scheme used to identify combination of <see cref="BearerScheme"/> and <see cref="ApplicationScheme"/>.
+    /// </summary>
+    internal const string BearerAndApplicationScheme = IdentityPrefix + ".BearerAndApplication";
+
+    /// <summary>
     /// The scheme used to identify external authentication cookies.
     /// </summary>
     public static readonly string ExternalScheme = IdentityPrefix + ".External";

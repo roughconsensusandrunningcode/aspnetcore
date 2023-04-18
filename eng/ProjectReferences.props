@@ -39,7 +39,6 @@
     <ProjectReferenceProvider Include="Microsoft.AspNetCore.Html.Abstractions" ProjectPath="$(RepoRoot)src\Html.Abstractions\src\Microsoft.AspNetCore.Html.Abstractions.csproj" />
     <ProjectReferenceProvider Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" ProjectPath="$(RepoRoot)src\Identity\ApiAuthorization.IdentityServer\src\Microsoft.AspNetCore.ApiAuthorization.IdentityServer.csproj" />
     <ProjectReferenceProvider Include="Microsoft.AspNetCore.Identity" ProjectPath="$(RepoRoot)src\Identity\Core\src\Microsoft.AspNetCore.Identity.csproj" />
-    <ProjectReferenceProvider Include="Microsoft.AspNetCore.Identity.Endpoints" ProjectPath="$(RepoRoot)src\Identity\Endpoints\src\Microsoft.AspNetCore.Identity.Endpoints.csproj" />
     <ProjectReferenceProvider Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" ProjectPath="$(RepoRoot)src\Identity\EntityFrameworkCore\src\Microsoft.AspNetCore.Identity.EntityFrameworkCore.csproj" />
     <ProjectReferenceProvider Include="Microsoft.Extensions.Identity.Core" ProjectPath="$(RepoRoot)src\Identity\Extensions.Core\src\Microsoft.Extensions.Identity.Core.csproj" />
     <ProjectReferenceProvider Include="Microsoft.Extensions.Identity.Stores" ProjectPath="$(RepoRoot)src\Identity\Extensions.Stores\src\Microsoft.Extensions.Identity.Stores.csproj" />
@@ -54,6 +53,7 @@
     <ProjectReferenceProvider Include="Microsoft.AspNetCore.Server.Kestrel.Transport.NamedPipes" ProjectPath="$(RepoRoot)src\Servers\Kestrel\Transport.NamedPipes\src\Microsoft.AspNetCore.Server.Kestrel.Transport.NamedPipes.csproj" />
     <ProjectReferenceProvider Include="Microsoft.AspNetCore.Server.Kestrel.Transport.Quic" ProjectPath="$(RepoRoot)src\Servers\Kestrel\Transport.Quic\src\Microsoft.AspNetCore.Server.Kestrel.Transport.Quic.csproj" />
     <ProjectReferenceProvider Include="Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets" ProjectPath="$(RepoRoot)src\Servers\Kestrel\Transport.Sockets\src\Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.csproj" />
+    <ProjectReferenceProvider Include="Microsoft.AspNetCore.Authentication.BearerToken" ProjectPath="$(RepoRoot)src\Security\Authentication\BearerToken\src\Microsoft.AspNetCore.Authentication.BearerToken.csproj" />
     <ProjectReferenceProvider Include="Microsoft.AspNetCore.Authentication.Certificate" ProjectPath="$(RepoRoot)src\Security\Authentication\Certificate\src\Microsoft.AspNetCore.Authentication.Certificate.csproj" />
     <ProjectReferenceProvider Include="Microsoft.AspNetCore.Authentication.Cookies" ProjectPath="$(RepoRoot)src\Security\Authentication\Cookies\src\Microsoft.AspNetCore.Authentication.Cookies.csproj" />
     <ProjectReferenceProvider Include="Microsoft.AspNetCore.Authentication" ProjectPath="$(RepoRoot)src\Security\Authentication\Core\src\Microsoft.AspNetCore.Authentication.csproj" />

@@ -3,11 +3,10 @@
 
 using System.Text.Json.Serialization;
 
-namespace Microsoft.AspNetCore.Identity.Endpoints.DTO;
+namespace Microsoft.AspNetCore.Identity.DTO;
 
 [JsonSerializable(typeof(RegisterRequest))]
 [JsonSerializable(typeof(LoginRequest))]
-[JsonSerializable(typeof(AccessTokenResponse))]
 internal sealed partial class IdentityEndpointsJsonSerializerContext : JsonSerializerContext
 {
 }

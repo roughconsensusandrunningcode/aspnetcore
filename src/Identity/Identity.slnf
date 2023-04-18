@@ -34,7 +34,6 @@
       "src\\Identity\\ApiAuthorization.IdentityServer\\src\\Microsoft.AspNetCore.ApiAuthorization.IdentityServer.csproj",
       "src\\Identity\\ApiAuthorization.IdentityServer\\test\\Microsoft.AspNetCore.ApiAuthorization.IdentityServer.Tests.csproj",
       "src\\Identity\\Core\\src\\Microsoft.AspNetCore.Identity.csproj",
-      "src\\Identity\\Endpoints\\src\\Microsoft.AspNetCore.Identity.Endpoints.csproj",
       "src\\Identity\\EntityFrameworkCore\\src\\Microsoft.AspNetCore.Identity.EntityFrameworkCore.csproj",
       "src\\Identity\\EntityFrameworkCore\\test\\EF.InMemory.Test\\Microsoft.AspNetCore.Identity.EntityFrameworkCore.InMemory.Test.csproj",
       "src\\Identity\\EntityFrameworkCore\\test\\EF.Test\\Microsoft.AspNetCore.Identity.EntityFrameworkCore.Test.csproj",
@@ -42,8 +41,8 @@
       "src\\Identity\\Extensions.Stores\\src\\Microsoft.Extensions.Identity.Stores.csproj",
       "src\\Identity\\Specification.Tests\\src\\Microsoft.AspNetCore.Identity.Specification.Tests.csproj",
       "src\\Identity\\UI\\src\\Microsoft.AspNetCore.Identity.UI.csproj",
+      "src\\Identity\\samples\\IdentitySample.ApiEndpoints\\IdentitySample.ApiEndpoints.csproj",
       "src\\Identity\\samples\\IdentitySample.DefaultUI\\IdentitySample.DefaultUI.csproj",
-      "src\\Identity\\samples\\IdentitySample.Endpoints\\IdentitySample.Endpoints.csproj",
       "src\\Identity\\samples\\IdentitySample.Mvc\\IdentitySample.Mvc.csproj",
       "src\\Identity\\test\\Identity.FunctionalTests\\Microsoft.AspNetCore.Identity.FunctionalTests.csproj",
       "src\\Identity\\test\\Identity.Test\\Microsoft.AspNetCore.Identity.Test.csproj",
@@ -77,6 +76,7 @@
       "src\\ObjectPool\\src\\Microsoft.Extensions.ObjectPool.csproj",
       "src\\Razor\\Razor.Runtime\\src\\Microsoft.AspNetCore.Razor.Runtime.csproj",
       "src\\Razor\\Razor\\src\\Microsoft.AspNetCore.Razor.csproj",
+      "src\\Security\\Authentication\\BearerToken\\src\\Microsoft.AspNetCore.Authentication.BearerToken.csproj",
       "src\\Security\\Authentication\\Cookies\\src\\Microsoft.AspNetCore.Authentication.Cookies.csproj",
       "src\\Security\\Authentication\\Core\\src\\Microsoft.AspNetCore.Authentication.csproj",
       "src\\Security\\Authentication\\Facebook\\src\\Microsoft.AspNetCore.Authentication.Facebook.csproj",
@@ -94,7 +94,8 @@
       "src\\Servers\\Kestrel\\Transport.NamedPipes\\src\\Microsoft.AspNetCore.Server.Kestrel.Transport.NamedPipes.csproj",
       "src\\Servers\\Kestrel\\Transport.Quic\\src\\Microsoft.AspNetCore.Server.Kestrel.Transport.Quic.csproj",
       "src\\Servers\\Kestrel\\Transport.Sockets\\src\\Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.csproj",
-      "src\\Testing\\src\\Microsoft.AspNetCore.Testing.csproj"
+      "src\\Testing\\src\\Microsoft.AspNetCore.Testing.csproj",
+      "src\\WebEncoders\\src\\Microsoft.Extensions.WebEncoders.csproj"
     ]
   }
 }

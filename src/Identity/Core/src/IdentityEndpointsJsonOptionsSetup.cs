@@ -2,10 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Microsoft.AspNetCore.Http.Json;
-using Microsoft.AspNetCore.Identity.Endpoints.DTO;
+using Microsoft.AspNetCore.Identity.DTO;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.AspNetCore.Identity.Endpoints;
+namespace Microsoft.AspNetCore.Identity;
 
 internal sealed class IdentityEndpointsJsonOptionsSetup : IConfigureOptions<JsonOptions>
 {

@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "IdentitySample.Endpoints": {
+    "IdentitySample.ApiEndpoints": {
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {

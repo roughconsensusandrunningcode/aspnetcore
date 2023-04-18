@@ -1,0 +1,16 @@
+#nullable enable
+const Microsoft.AspNetCore.Authentication.BearerToken.BearerTokenDefaults.AuthenticationScheme = "BearerToken" -> string!
+Microsoft.AspNetCore.Authentication.BearerToken.BearerTokenDefaults
+Microsoft.AspNetCore.Authentication.BearerToken.BearerTokenOptions
+Microsoft.AspNetCore.Authentication.BearerToken.BearerTokenOptions.BearerTokenExpiration.get -> System.TimeSpan
+Microsoft.AspNetCore.Authentication.BearerToken.BearerTokenOptions.BearerTokenExpiration.set -> void
+Microsoft.AspNetCore.Authentication.BearerToken.BearerTokenOptions.BearerTokenOptions() -> void
+Microsoft.AspNetCore.Authentication.BearerToken.BearerTokenOptions.BearerTokenProtector.get -> Microsoft.AspNetCore.Authentication.ISecureDataFormat<Microsoft.AspNetCore.Authentication.AuthenticationTicket!>?
+Microsoft.AspNetCore.Authentication.BearerToken.BearerTokenOptions.BearerTokenProtector.set -> void
+Microsoft.AspNetCore.Authentication.BearerToken.BearerTokenOptions.ExtractBearerToken.get -> System.Func<Microsoft.AspNetCore.Http.HttpContext!, System.Threading.Tasks.ValueTask<string?>>?
+Microsoft.AspNetCore.Authentication.BearerToken.BearerTokenOptions.ExtractBearerToken.set -> void
+Microsoft.Extensions.DependencyInjection.BearerTokenExtensions
+static Microsoft.Extensions.DependencyInjection.BearerTokenExtensions.AddBearerToken(this Microsoft.AspNetCore.Authentication.AuthenticationBuilder! builder) -> Microsoft.AspNetCore.Authentication.AuthenticationBuilder!
+static Microsoft.Extensions.DependencyInjection.BearerTokenExtensions.AddBearerToken(this Microsoft.AspNetCore.Authentication.AuthenticationBuilder! builder, string! authenticationScheme) -> Microsoft.AspNetCore.Authentication.AuthenticationBuilder!
+static Microsoft.Extensions.DependencyInjection.BearerTokenExtensions.AddBearerToken(this Microsoft.AspNetCore.Authentication.AuthenticationBuilder! builder, string! authenticationScheme, System.Action<Microsoft.AspNetCore.Authentication.BearerToken.BearerTokenOptions!>! configure) -> Microsoft.AspNetCore.Authentication.AuthenticationBuilder!
+static Microsoft.Extensions.DependencyInjection.BearerTokenExtensions.AddBearerToken(this Microsoft.AspNetCore.Authentication.AuthenticationBuilder! builder, System.Action<Microsoft.AspNetCore.Authentication.BearerToken.BearerTokenOptions!>! configure) -> Microsoft.AspNetCore.Authentication.AuthenticationBuilder!

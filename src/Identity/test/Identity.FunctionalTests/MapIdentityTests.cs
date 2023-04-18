@@ -12,7 +12,6 @@ using Identity.DefaultUI.WebSite.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.Endpoints;
 using Microsoft.AspNetCore.Identity.Test;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.TestHost;
@@ -37,7 +36,7 @@ public class MapIdentityTests : LoggedTest
         await using var app = await CreateAppAsync(AddIdentityActions[addIdentityMode]);
         using var client = app.GetTestClient();
 
-        var response = await client.PostAsJsonAsync("/identity/v1/register", new { Username, Password });
+        var response = await client.PostAsJsonAsync("/identity/register", new { Username, Password });
 
         response.EnsureSuccessStatusCode();
         Assert.Equal(0, response.Content.Headers.ContentLength);
@@ -50,8 +49,8 @@ public class MapIdentityTests : LoggedTest
         await using var app = await CreateAppAsync(AddIdentityActions[addIdentityMode]);
         using var client = app.GetTestClient();
 
-        await client.PostAsJsonAsync("/identity/v1/register", new { Username, Password });
-        var loginResponse = await client.PostAsJsonAsync("/identity/v1/login", new { Username, Password });
+        await client.PostAsJsonAsync("/identity/register", new { Username, Password });
+        var loginResponse = await client.PostAsJsonAsync("/identity/login", new { Username, Password });
 
         loginResponse.EnsureSuccessStatusCode();
         Assert.False(loginResponse.Headers.Contains(HeaderNames.SetCookie));
@@ -76,8 +75,8 @@ public class MapIdentityTests : LoggedTest
 
         await using var app = await CreateAppAsync(services =>
         {
-            services.AddIdentityEndpointsCore<ApplicationUser>(_ => { }).AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddAuthentication(IdentityConstants.BearerScheme).AddIdentityBearer(options =>
+            services.AddIdentityCore<ApplicationUser>().AddApiEndpoints().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddAuthentication(IdentityConstants.BearerScheme).AddBearerToken(IdentityConstants.BearerScheme, options =>
             {
                 options.BearerTokenExpiration = expireTimeSpan;
             });
@@ -86,8 +85,8 @@ public class MapIdentityTests : LoggedTest
 
         using var client = app.GetTestClient();
 
-        await client.PostAsJsonAsync("/identity/v1/register", new { Username, Password });
-        var loginResponse = await client.PostAsJsonAsync("/identity/v1/login", new { Username, Password });
+        await client.PostAsJsonAsync("/identity/register", new { Username, Password });
+        var loginResponse = await client.PostAsJsonAsync("/identity/login", new { Username, Password });
 
         var loginContent = await loginResponse.Content.ReadFromJsonAsync<JsonElement>();
         var accessToken = loginContent.GetProperty("access_token").GetString();
@@ -119,8 +118,8 @@ public class MapIdentityTests : LoggedTest
         await using var app = await CreateAppAsync();
         using var client = app.GetTestClient();
 
-        await client.PostAsJsonAsync("/identity/v1/register", new { Username, Password });
-        var loginResponse = await client.PostAsJsonAsync("/identity/v1/login", new { Username, Password, CookieMode = true });
+        await client.PostAsJsonAsync("/identity/register", new { Username, Password });
+        var loginResponse = await client.PostAsJsonAsync("/identity/login?cookieMode=true", new { Username, Password });
 
         loginResponse.EnsureSuccessStatusCode();
         Assert.Equal(0, loginResponse.Content.Headers.ContentLength);
@@ -144,10 +143,10 @@ public class MapIdentityTests : LoggedTest
         await using var app = await CreateAppAsync(AddIdentityEndpointsBearerOnly);
         using var client = app.GetTestClient();
 
-        await client.PostAsJsonAsync("/identity/v1/register", new { Username, Password });
+        await client.PostAsJsonAsync("/identity/register", new { Username, Password });
 
         await Assert.ThrowsAsync<InvalidOperationException>(()
-            => client.PostAsJsonAsync("/identity/v1/login", new { Username, Password, CookieMode = true }));
+            => client.PostAsJsonAsync("/identity/login?cookieMode=true", new { Username, Password }));
     }
 
     [Fact]
@@ -155,8 +154,8 @@ public class MapIdentityTests : LoggedTest
     {
         await using var app = await CreateAppAsync(services =>
         {
-            services.AddIdentityEndpointsCore<ApplicationUser>(_ => { }).AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddAuthentication(IdentityConstants.BearerScheme).AddIdentityBearer(options =>
+            services.AddIdentityCore<ApplicationUser>().AddApiEndpoints().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddAuthentication(IdentityConstants.BearerScheme).AddBearerToken(IdentityConstants.BearerScheme, options =>
             {
                 options.ExtractBearerToken = context =>
                 {
@@ -170,8 +169,8 @@ public class MapIdentityTests : LoggedTest
 
         using var client = app.GetTestClient();
 
-        await client.PostAsJsonAsync("/identity/v1/register", new { Username, Password });
-        var loginResponse = await client.PostAsJsonAsync("/identity/v1/login", new { Username, Password });
+        await client.PostAsJsonAsync("/identity/register", new { Username, Password });
+        var loginResponse = await client.PostAsJsonAsync("/identity/login", new { Username, Password });
 
         var loginContent = await loginResponse.Content.ReadFromJsonAsync<JsonElement>();
         var accessToken = loginContent.GetProperty("access_token").GetString();
@@ -183,21 +182,11 @@ public class MapIdentityTests : LoggedTest
         Assert.Equal($"Hello, {Username}!", await client.GetStringAsync($"/auth/hello"));
     }
 
-    [Fact]
-    public async Task RedirectsToLoginPageByDefaultGivenNoBearerToken()
+    [Theory]
+    [MemberData(nameof(AddIdentityModes))]
+    public async Task Returns401UnauthorizedStatusGivenNoBearerTokenOrCookie(string addIdentityMode)
     {
-        await using var app = await CreateAppAsync();
-        using var client = app.GetTestClient();
-
-        var redirectResponse = await client.GetAsync($"/auth/hello");
-        Assert.Equal(HttpStatusCode.Found, redirectResponse.StatusCode);
-        Assert.Equal(new Uri("http://localhost/Account/Login?ReturnUrl=%2Fauth%2Fhello"), redirectResponse.Headers.Location);
-    }
-
-    [Fact]
-    public async Task Returns401UnauthorizedStatusWithOnlyCoreServicesGivenNoBearerToken()
-    {
-        await using var app = await CreateAppAsync(AddIdentityEndpointsBearerOnly);
+        await using var app = await CreateAppAsync(AddIdentityActions[addIdentityMode]);
         using var client = app.GetTestClient();
 
         var unauthorizedResponse = await client.GetAsync($"/auth/hello");
@@ -240,12 +229,12 @@ public class MapIdentityTests : LoggedTest
     }
 
     private static void AddIdentityEndpoints(IServiceCollection services)
-        => services.AddIdentityEndpoints<ApplicationUser>().AddEntityFrameworkStores<ApplicationDbContext>();
+        => services.AddIdentityApiEndpoints<ApplicationUser>().AddEntityFrameworkStores<ApplicationDbContext>();
 
     private static void AddIdentityEndpointsBearerOnly(IServiceCollection services)
     {
-        services.AddIdentityEndpointsCore<ApplicationUser>(_ => { }).AddEntityFrameworkStores<ApplicationDbContext>();
-        services.AddAuthentication(IdentityConstants.BearerScheme).AddIdentityBearer(configure: null);
+        services.AddIdentityCore<ApplicationUser>().AddEntityFrameworkStores<ApplicationDbContext>();
+        services.AddAuthentication(IdentityConstants.BearerScheme).AddBearerToken(IdentityConstants.BearerScheme);
     }
 
     private Task<WebApplication> CreateAppAsync(Action<IServiceCollection>? configureServices = null)
