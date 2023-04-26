@@ -16,11 +16,10 @@ internal sealed class BearerTokenHandler(
     IOptionsMonitor<BearerTokenOptions> optionsMonitor,
     ILoggerFactory loggerFactory,
     UrlEncoder urlEncoder,
-    ISystemClock clock,
 #pragma warning disable IDE0060 // Remove unused parameter. False positive fixed by https://github.com/dotnet/roslyn/pull/67167
     IDataProtectionProvider dataProtectionProvider)
 #pragma warning restore IDE0060 // Remove unused parameter
-    : SignInAuthenticationHandler<BearerTokenOptions>(optionsMonitor, loggerFactory, urlEncoder, clock)
+    : SignInAuthenticationHandler<BearerTokenOptions>(optionsMonitor, loggerFactory, urlEncoder)
 {
     private const string BearerTokenPurpose = $"Microsoft.AspNetCore.Authentication.BearerToken:v1:BearerToken";
 
@@ -45,7 +44,7 @@ internal sealed class BearerTokenHandler(
             return FailedUnprotectingToken;
         }
 
-        if (Clock.UtcNow >= ticket.Properties.ExpiresUtc)
+        if (TimeProvider.GetUtcNow() >= ticket.Properties.ExpiresUtc)
         {
             return TokenExpired;
         }
@@ -62,7 +61,7 @@ internal sealed class BearerTokenHandler(
     protected override Task HandleSignInAsync(ClaimsPrincipal user, AuthenticationProperties? properties)
     {
         properties ??= new();
-        properties.ExpiresUtc ??= Clock.UtcNow + Options.BearerTokenExpiration;
+        properties.ExpiresUtc ??= TimeProvider.GetUtcNow() + Options.BearerTokenExpiration;
 
         var ticket = new AuthenticationTicket(user, properties, Scheme.Name);
         var accessTokenResponse = new AccessTokenResponse
