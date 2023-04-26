@@ -157,12 +157,10 @@ public class MapIdentityTests : LoggedTest
             services.AddIdentityCore<ApplicationUser>().AddApiEndpoints().AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddAuthentication(IdentityConstants.BearerScheme).AddBearerToken(IdentityConstants.BearerScheme, options =>
             {
-                options.ExtractBearerToken = context =>
+                options.Events.OnMessageReceived = context =>
                 {
-                    var bearerToken = context.Request.Query["access_token"];
-                    return StringValues.IsNullOrEmpty(bearerToken)
-                        ? default
-                        : new(bearerToken.ToString());
+                    context.Token = (string?)context.Request.Query["access_token"];
+                    return Task.CompletedTask;
                 };
             });
         });

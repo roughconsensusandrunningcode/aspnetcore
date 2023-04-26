@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Http;
 
 namespace Microsoft.AspNetCore.Authentication.BearerToken;
 
@@ -11,6 +10,14 @@ namespace Microsoft.AspNetCore.Authentication.BearerToken;
 /// </summary>
 public sealed class BearerTokenOptions : AuthenticationSchemeOptions
 {
+    /// <summary>
+    /// Constructs the options used to authenticate using opaque bearer tokens.
+    /// </summary>
+    public BearerTokenOptions()
+    {
+        Events = new();
+    }
+
     /// <summary>
     /// Controls how much time the bearer token will remain valid from the point it is created.
     /// The expiration information is stored in the protected token. Because of that, an expired token will be rejected
@@ -26,8 +33,14 @@ public sealed class BearerTokenOptions : AuthenticationSchemeOptions
     public ISecureDataFormat<AuthenticationTicket>? BearerTokenProtector { get; set; }
 
     /// <summary>
-    /// If set, this provides the bearer token. If unset, the bearer token is read from the Authorization  request header with a "Bearer " prefix.
+    /// The object provided by the application to process events raised by the bearer token authentication handler.
+    /// The application may implement the interface fully, or it may create an instance of <see cref="BearerTokenEvents"/>
+    /// and assign delegates only to the events it wants to process.
     /// </summary>
-    public Func<HttpContext, ValueTask<string?>>? ExtractBearerToken { get; set; }
+    public new BearerTokenEvents Events
+    {
+        get { return (BearerTokenEvents)base.Events!; }
+        set { base.Events = value; }
+    }
 }
 

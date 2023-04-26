@@ -29,10 +29,23 @@ internal sealed class BearerTokenHandler(
     private ISecureDataFormat<AuthenticationTicket> BearerTokenProtector
         => Options.BearerTokenProtector ?? new TicketDataFormat(dataProtectionProvider.CreateProtector(BearerTokenPurpose));
 
+    private new BearerTokenEvents Events => (BearerTokenEvents)base.Events!;
+
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        // If there's no bearer token, forward to cookie auth.
-        if (await GetBearerTokenOrNullAsync() is not string token)
+        // Give application opportunity to find from a different location, adjust, or reject token
+        var messageReceivedContext = new MessageReceivedContext(Context, Scheme, Options);
+
+        await Events.MessageReceived(messageReceivedContext);
+
+        if (messageReceivedContext.Result != null)
+        {
+            return messageReceivedContext.Result;
+        }
+
+        var token = messageReceivedContext.Token ?? GetBearerTokenOrNull();
+
+        if (token is null)
         {
             return AuthenticateResult.NoResult();
         }
@@ -76,14 +89,8 @@ internal sealed class BearerTokenHandler(
     // No-op to avoid interfering with any mass sign-out logic.
     protected override Task HandleSignOutAsync(AuthenticationProperties? properties) => Task.CompletedTask;
 
-    private async ValueTask<string?> GetBearerTokenOrNullAsync()
+    private string? GetBearerTokenOrNull()
     {
-        if (Options.ExtractBearerToken is not null &&
-            await Options.ExtractBearerToken(Context) is string token)
-        {
-            return token;
-        }
-
         var authorization = Request.Headers.Authorization.ToString();
 
         return authorization.StartsWith("Bearer ", StringComparison.Ordinal)
